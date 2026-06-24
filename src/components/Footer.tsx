@@ -5,6 +5,7 @@ const navLinks = [
   { label: "Ergebnisse", href: "/#ergebnisse" },
   { label: "Über uns", href: "/#ueber-uns" },
   { label: "Blog", href: "/blog" },
+  { label: "KI Beratung Mittelstand", href: "/ki-beratung-mittelstand" },
   { label: "Kontakt", href: "/contact" },
 ];
 
