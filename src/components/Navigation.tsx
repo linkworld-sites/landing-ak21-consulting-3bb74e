@@ -5,9 +5,9 @@ import { motion } from "framer-motion";
 import { track } from "@/lib/funnel";
 
 const navItems = [
-  { label: "Leistungen", href: "#leistungen" },
-  { label: "Ergebnisse", href: "#ergebnisse" },
-  { label: "Über uns", href: "#ueber-uns" },
+  { label: "Leistungen", href: "/#leistungen" },
+  { label: "Ergebnisse", href: "/#ergebnisse" },
+  { label: "Über uns", href: "/#ueber-uns" },
   { label: "Blog", href: "/blog" },
 ];
 
