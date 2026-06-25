@@ -18,10 +18,14 @@ const config: Config = {
         },
       },
       fontFamily: {
+        // Design-system fonts (new canonical names)
         heading: ["var(--font-space-grotesk)", "sans-serif"],
         body: ["var(--font-inter)", "sans-serif"],
         "space-grotesk": ["var(--font-space-grotesk)", "sans-serif"],
         inter: ["var(--font-inter)", "sans-serif"],
+        // Backward-compatible aliases so existing components don't need edits
+        syne: ["var(--font-space-grotesk)", "sans-serif"],
+        dm: ["var(--font-inter)", "sans-serif"],
       },
       fontSize: {
         "display-xl": ["clamp(60px,8vw,120px)", { lineHeight: "0.95", letterSpacing: "-0.03em" }],
