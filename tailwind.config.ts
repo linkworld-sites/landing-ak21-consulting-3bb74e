@@ -18,8 +18,10 @@ const config: Config = {
         },
       },
       fontFamily: {
-        syne: ["var(--font-syne)", "sans-serif"],
-        dm: ["var(--font-dm-sans)", "sans-serif"],
+        heading: ["var(--font-space-grotesk)", "sans-serif"],
+        body: ["var(--font-inter)", "sans-serif"],
+        "space-grotesk": ["var(--font-space-grotesk)", "sans-serif"],
+        inter: ["var(--font-inter)", "sans-serif"],
       },
       fontSize: {
         "display-xl": ["clamp(60px,8vw,120px)", { lineHeight: "0.95", letterSpacing: "-0.03em" }],
