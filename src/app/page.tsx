@@ -1,5 +1,6 @@
 import Navigation from "@/components/Navigation";
 import HeroSection from "@/components/sections/HeroSection";
+import SocialProofSection from "@/components/sections/SocialProofSection";
 import PositioningSection from "@/components/sections/PositioningSection";
 import ServicesSection from "@/components/sections/ServicesSection";
 import WhySection from "@/components/sections/WhySection";
@@ -17,6 +18,7 @@ export default function Home() {
       <Navigation />
       <main className="bg-brand-ground overflow-x-hidden">
         <HeroSection />
+        <SocialProofSection />
         <PositioningSection />
         <ServicesSection />
         <WhySection />

@@ -76,18 +76,29 @@ export default function ContactCTA() {
           initial={{ opacity: 0, y: 16 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.45 }}
-          className="flex flex-col sm:flex-row gap-4 justify-center items-center"
+          className="flex flex-col items-center gap-4"
+          id="kontakt"
         >
           <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}>
             <Link
               href="/contact"
               onClick={() => track("intent")}
-              className="inline-flex items-center gap-3 px-10 py-5 bg-brand-amber text-brand-ground font-syne font-bold text-sm tracking-wide rounded hover:brightness-110 transition-all duration-300"
+              className="inline-flex items-center gap-3 px-10 py-5 bg-brand-amber text-brand-ground font-syne font-bold text-sm tracking-wide rounded hover:brightness-110 transition-all duration-300 whitespace-nowrap"
+              style={{ minWidth: "280px", justifyContent: "center" }}
             >
-              Gespräch anfragen
+              Kostenlosen Discovery-Workshop anfragen
               <span className="text-xl leading-none">→</span>
             </Link>
           </motion.div>
+          {/* Trust micro-copy */}
+          <div className="flex flex-col gap-1 text-center">
+            <span className="font-dm text-xs" style={{ color: "#2AFFC8" }}>
+              Kein Vendor-Lock-in · Technologieneutral · Ergebnis in 4–8 Wochen vertraglich zugesagt
+            </span>
+            <span className="font-dm text-xs" style={{ color: "#2AFFC8" }}>
+              Ihr erster Workshop ist kostenlos — kein Vorab-Commitment.
+            </span>
+          </div>
         </motion.div>
 
         <motion.p

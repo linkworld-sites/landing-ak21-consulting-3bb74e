@@ -112,26 +112,38 @@ export default function HeroSection() {
               custom={6}
               initial="hidden"
               animate={inView ? "visible" : "hidden"}
-              className="flex flex-col sm:flex-row gap-4 pt-2"
+              className="flex flex-col gap-3 pt-2"
             >
-              <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
-                <Link
-                  href="/contact"
-                  onClick={() => track("intent")}
-                  className="inline-flex items-center gap-2 px-8 py-4 bg-brand-amber text-brand-ground font-syne font-bold text-sm tracking-wide rounded hover:brightness-110 transition-all duration-300"
-                >
-                  Gespräch anfragen
-                  <span className="text-lg leading-none">→</span>
-                </Link>
-              </motion.div>
-              <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                <a
-                  href="#ergebnisse"
-                  className="inline-flex items-center gap-2 px-8 py-4 border border-brand-white/20 text-brand-white font-dm text-sm rounded hover:border-brand-white/50 transition-all duration-300"
-                >
-                  Unsere Ergebnisse
-                </a>
-              </motion.div>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
+                  <Link
+                    href="#kontakt"
+                    onClick={() => track("intent")}
+                    className="inline-flex items-center gap-2 px-8 py-4 bg-brand-amber text-brand-ground font-syne font-bold text-sm tracking-wide rounded hover:brightness-110 transition-all duration-300 whitespace-nowrap"
+                    style={{ minWidth: "280px", justifyContent: "center" }}
+                  >
+                    Kostenlosen Discovery-Workshop anfragen
+                    <span className="text-lg leading-none">→</span>
+                  </Link>
+                </motion.div>
+                <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                  <a
+                    href="#ergebnisse"
+                    className="inline-flex items-center gap-2 px-8 py-4 border border-brand-white/20 text-brand-white font-dm text-sm rounded hover:border-brand-white/50 transition-all duration-300"
+                  >
+                    Unsere Ergebnisse
+                  </a>
+                </motion.div>
+              </div>
+              {/* Trust micro-copy */}
+              <div className="flex flex-col gap-1 pt-1">
+                <span className="font-dm text-xs" style={{ color: "#2AFFC8" }}>
+                  Kein Vendor-Lock-in · Technologieneutral · Ergebnis in 4–8 Wochen vertraglich zugesagt
+                </span>
+                <span className="font-dm text-xs" style={{ color: "#2AFFC8" }}>
+                  Ihr erster Workshop ist kostenlos — kein Vorab-Commitment.
+                </span>
+              </div>
             </motion.div>
           </div>
 
