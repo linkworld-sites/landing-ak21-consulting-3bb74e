@@ -26,16 +26,21 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://5ecc822b.run.linkworld.ai",
   },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
-const organizationSchema = {
+const professionalServiceSchema = {
   "@context": "https://schema.org",
-  "@type": "Organization",
-  name: "AK21 Consulting",
+  "@type": "ProfessionalService",
+  name: "ak21 consulting",
   url: "https://5ecc822b.run.linkworld.ai",
   description:
-    "KI-Beratung für den Mittelstand im DACH-Raum. Proof of Value in 4–8 Wochen, vertraglich an KPIs gebunden, technologieneutral.",
+    "KI-Beratung DACH, Proof of Value in 4–8 Wochen. Wir übersetzen KI-Komplexität in messbaren Wettbewerbsvorteil — technologieneutral, vertraglich an KPIs gebunden.",
   areaServed: ["DE", "AT", "CH"],
+  serviceType: "KI-Strategie und Implementierungsberatung",
   knowsAbout: [
     "KI-Beratung",
     "KI-Strategie",
@@ -53,7 +58,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(professionalServiceSchema) }}
         />
       </head>
       <body>

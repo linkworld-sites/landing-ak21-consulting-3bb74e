@@ -8,11 +8,20 @@ export function generateStaticParams() {
   return getPosts().map((p) => ({ slug: p.slug }));
 }
 
+const BASE_URL = "https://5ecc822b.run.linkworld.ai";
+
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const post = getPost(slug);
   if (!post) return {};
-  return { title: `${post.title} — AK21 Consulting`, description: post.description };
+  return {
+    title: `${post.title} — AK21 Consulting`,
+    description: post.description,
+    alternates: {
+      canonical: `${BASE_URL}/blog/${slug}`,
+    },
+    robots: { index: true, follow: true },
+  };
 }
 
 export default async function BlogPost({
@@ -24,8 +33,35 @@ export default async function BlogPost({
   const post = getPost(slug);
   if (!post) notFound();
 
+  const blogPostingSchema = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.title,
+    description: post.description,
+    datePublished: post.date,
+    author: {
+      "@type": "Organization",
+      name: "ak21 consulting",
+      url: BASE_URL,
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "ak21 consulting",
+      url: BASE_URL,
+    },
+    url: `${BASE_URL}/blog/${slug}`,
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `${BASE_URL}/blog/${slug}`,
+    },
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(blogPostingSchema) }}
+      />
       <Navigation />
       <main className="min-h-screen bg-brand-ground pt-32 pb-24">
         <div className="max-w-screen-xl mx-auto px-6 md:px-12">

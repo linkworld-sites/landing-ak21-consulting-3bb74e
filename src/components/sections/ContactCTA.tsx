@@ -19,8 +19,7 @@ export default function ContactCTA() {
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src="/images/process.png"
-          alt=""
-          aria-hidden="true"
+          alt="KI-Beratung für den Mittelstand — ak21 consulting Proof of Value"
           className="w-full h-full object-cover opacity-15"
           style={{ filter: "saturate(0.3) brightness(0.4)" }}
         />
