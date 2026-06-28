@@ -1,11 +1,9 @@
 "use client";
 
-import { useRef, useState } from "react";
-import { motion, useInView, useReducedMotion, AnimatePresence } from "framer-motion";
+import { useRef } from "react";
+import Link from "next/link";
+import { motion, useInView, useReducedMotion } from "framer-motion";
 import { track } from "@/lib/funnel";
-import ConversionForm from "@/components/ConversionForm";
-
-// ─── Constants ───────────────────────────────────────────────────────────────
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 const EASE_SHARP: [number, number, number, number] = [0.76, 0, 0.24, 1];
@@ -47,15 +45,15 @@ function NeuralNetSVG() {
       aria-hidden="true"
     >
       <defs>
-        <pattern id="nnGrid" width="10" height="10" patternUnits="userSpaceOnUse">
+        <pattern id="kbmGrid" width="10" height="10" patternUnits="userSpaceOnUse">
           <path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(42,255,200,0.07)" strokeWidth="0.25" />
         </pattern>
-        <radialGradient id="nodeGlow" cx="50%" cy="50%" r="50%">
+        <radialGradient id="kbmGlow" cx="50%" cy="50%" r="50%">
           <stop offset="0%" stopColor="#F5A623" stopOpacity="0.55" />
           <stop offset="100%" stopColor="#F5A623" stopOpacity="0" />
         </radialGradient>
       </defs>
-      <rect width="100" height="100" fill="url(#nnGrid)" />
+      <rect width="100" height="100" fill="url(#kbmGrid)" />
       {NN_EDGES.map(([a, b], i) => (
         <line
           key={i}
@@ -67,43 +65,16 @@ function NeuralNetSVG() {
       ))}
       {!noMotion && NN_FLOWS.map(([a, b], i) => (
         <circle key={`f${i}`} r="1.3" fill="#2AFFC8">
-          <animate
-            attributeName="cx"
-            from={NN_NODES[a][0]}
-            to={NN_NODES[b][0]}
-            dur={`${1.8 + i * 0.42}s`}
-            repeatCount="indefinite"
-            begin={`${i * 0.65}s`}
-          />
-          <animate
-            attributeName="cy"
-            from={NN_NODES[a][1]}
-            to={NN_NODES[b][1]}
-            dur={`${1.8 + i * 0.42}s`}
-            repeatCount="indefinite"
-            begin={`${i * 0.65}s`}
-          />
-          <animate
-            attributeName="opacity"
-            values="0;0.9;0.9;0"
-            keyTimes="0;0.08;0.88;1"
-            dur={`${1.8 + i * 0.42}s`}
-            repeatCount="indefinite"
-            begin={`${i * 0.65}s`}
-          />
+          <animate attributeName="cx" from={NN_NODES[a][0]} to={NN_NODES[b][0]} dur={`${1.8 + i * 0.42}s`} repeatCount="indefinite" begin={`${i * 0.65}s`} />
+          <animate attributeName="cy" from={NN_NODES[a][1]} to={NN_NODES[b][1]} dur={`${1.8 + i * 0.42}s`} repeatCount="indefinite" begin={`${i * 0.65}s`} />
+          <animate attributeName="opacity" values="0;0.9;0.9;0" keyTimes="0;0.08;0.88;1" dur={`${1.8 + i * 0.42}s`} repeatCount="indefinite" begin={`${i * 0.65}s`} />
         </circle>
       ))}
       {NN_NODES.map(([x, y], i) => (
         <g key={i}>
-          <circle cx={x} cy={y} r="3.5" fill="url(#nodeGlow)">
+          <circle cx={x} cy={y} r="3.5" fill="url(#kbmGlow)">
             {!noMotion && (
-              <animate
-                attributeName="r"
-                values="2.5;4.5;2.5"
-                dur={`${3.5 + (i % 5) * 0.42}s`}
-                repeatCount="indefinite"
-                begin={`${(i % 7) * 0.22}s`}
-              />
+              <animate attributeName="r" values="2.5;4.5;2.5" dur={`${3.5 + (i % 5) * 0.42}s`} repeatCount="indefinite" begin={`${(i % 7) * 0.22}s`} />
             )}
           </circle>
           <circle cx={x} cy={y} r="1.2" fill="#F5A623" />
@@ -116,7 +87,7 @@ function NeuralNetSVG() {
 
 // ─── Hero ─────────────────────────────────────────────────────────────────────
 
-function HeroLP() {
+function HeroSection() {
   const ref = useRef<HTMLElement>(null);
   const inView = useInView(ref, { once: true });
 
@@ -130,8 +101,10 @@ function HeroLP() {
           backgroundSize: "80px 80px",
         }}
       />
+
       <div className="relative z-10 w-full max-w-screen-xl mx-auto px-6 md:px-12 pt-32 pb-24">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-0 items-center min-h-[70vh]">
+
           {/* Left: Copy */}
           <div className="lg:col-span-7 flex flex-col gap-8">
             <motion.div
@@ -139,61 +112,73 @@ function HeroLP() {
               initial="hidden" animate={inView ? "visible" : "hidden"}
             >
               <span className="font-dm text-xs font-medium text-brand-cyan tracking-[0.15em] uppercase">
-                // KI-Beratung · Mittelstand · DACH · 21 Jahre Erfahrung
+                // KI-Beratung · Mittelstand · DACH · 40+ Projekte · 12 Branchen
               </span>
             </motion.div>
 
-            <div className="flex flex-col gap-1">
+            <h1
+              className="font-syne font-bold text-brand-white"
+              style={{ fontSize: "clamp(26px, 3.8vw, 58px)", lineHeight: "1.08", letterSpacing: "-0.02em" }}
+            >
               <div className="overflow-hidden">
-                <motion.h1
+                <motion.span
                   initial={{ clipPath: "inset(0 100% 0 0)" }}
                   animate={inView ? { clipPath: "inset(0 0% 0 0)" } : {}}
                   transition={{ duration: 0.85, ease: EASE_SHARP }}
-                  className="font-syne font-light text-display-xl text-brand-white"
+                  className="block"
                 >
-                  KI Beratung für den
-                </motion.h1>
+                  KI-Beratung für den Mittelstand —
+                </motion.span>
               </div>
               <div className="overflow-hidden">
                 <motion.span
                   initial={{ clipPath: "inset(0 100% 0 0)" }}
                   animate={inView ? { clipPath: "inset(0 0% 0 0)" } : {}}
                   transition={{ duration: 0.85, delay: 0.18, ease: EASE_SHARP }}
-                  className="font-syne font-bold text-display-xl text-brand-amber block"
+                  className="block text-brand-amber"
                 >
-                  Mittelstand.
+                  Proof of Value in 4–8 Wochen,
                 </motion.span>
               </div>
-            </div>
+              <div className="overflow-hidden">
+                <motion.span
+                  initial={{ clipPath: "inset(0 100% 0 0)" }}
+                  animate={inView ? { clipPath: "inset(0 0% 0 0)" } : {}}
+                  transition={{ duration: 0.85, delay: 0.34, ease: EASE_SHARP }}
+                  className="block font-light text-brand-white/75"
+                >
+                  vertraglich an KPIs gebunden.
+                </motion.span>
+              </div>
+            </h1>
 
             <motion.div
               initial={{ scaleX: 0, transformOrigin: "left" }}
               animate={inView ? { scaleX: 1 } : { scaleX: 0 }}
-              transition={{ duration: 0.8, delay: 0.45, ease: EASE }}
+              transition={{ duration: 0.8, delay: 0.58, ease: EASE }}
               className="h-px bg-brand-amber w-[40vw] max-w-xs"
             />
 
             <motion.p
-              variants={fadeUp} custom={4}
+              variants={fadeUp} custom={5}
               initial="hidden" animate={inView ? "visible" : "hidden"}
               className="font-dm text-brand-text text-lg max-w-xl leading-relaxed"
             >
-              Pragmatische KI-Lösungen für Fertigungsbetriebe, Logistiker und Dienstleister —
-              ohne Vendor Lock-in, ohne Buzzwords. DSGVO- und EU AI Act-konform.
-              ROI-nachweisbar in 12 Monaten.
+              ak21 consulting liefert messbaren KI-ROI — technologieneutral, ohne Vendor-Bindung,
+              mit dem Ziel vollständiger Ownership-Übergabe statt Dauerabhängigkeit.
             </motion.p>
 
-            {/* Metrics strip */}
+            {/* Key metrics */}
             <motion.div
-              variants={fadeUp} custom={5}
+              variants={fadeUp} custom={6}
               initial="hidden" animate={inView ? "visible" : "hidden"}
               className="flex flex-wrap gap-x-8 gap-y-4 pt-1"
             >
               {[
-                { v: "21 Jahre", l: "Beratungserfahrung" },
-                { v: "∅ 8×", l: "ROI in 12 Monaten" },
-                { v: "8 Wochen", l: "bis zum Pilot" },
-                { v: "DSGVO", l: "EU AI Act ready" },
+                { v: "40+", l: "Projekte im DACH-Raum" },
+                { v: "12", l: "Branchen" },
+                { v: "4–8 Wo.", l: "bis Proof of Value" },
+                { v: "100%", l: "Technologieneutral" },
               ].map(({ v, l }) => (
                 <div key={v} className="flex flex-col">
                   <span className="font-syne font-bold text-brand-amber text-xl tracking-tight">{v}</span>
@@ -204,27 +189,26 @@ function HeroLP() {
 
             {/* CTAs */}
             <motion.div
-              variants={fadeUp} custom={7}
+              variants={fadeUp} custom={8}
               initial="hidden" animate={inView ? "visible" : "hidden"}
               className="flex flex-col sm:flex-row gap-4 pt-2"
             >
               <motion.a
-                href="#scorecard"
+                href="#erstgespraech"
                 onClick={() => track("intent")}
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
                 className="inline-flex items-center gap-2 px-8 py-4 bg-brand-amber text-brand-ground font-syne font-bold text-sm tracking-wide rounded hover:brightness-110 transition-all duration-300"
               >
-                Kostenlose Scorecard anfordern
-                <span className="text-lg leading-none">→</span>
+                Kostenloses Erstgespräch →
               </motion.a>
               <motion.a
-                href="#use-case"
+                href="#leistungen"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 className="inline-flex items-center gap-2 px-8 py-4 border border-brand-white/20 text-brand-white font-dm text-sm rounded hover:border-brand-white/50 transition-all duration-300"
               >
-                Praxisbeispiel ansehen
+                Leistungen ansehen
               </motion.a>
             </motion.div>
           </div>
@@ -239,11 +223,10 @@ function HeroLP() {
             <div className="absolute inset-0 rounded-xl border border-brand-amber/15 overflow-hidden bg-brand-surface/10">
               <NeuralNetSVG />
             </div>
-            {/* Overlay metrics */}
             <div className="absolute bottom-5 left-5 right-5 z-10 grid grid-cols-2 gap-3">
               {[
-                { value: "120+", label: "KI-Projekte" },
-                { value: "94%", label: "Kundenzufriedenheit" },
+                { value: "40+", label: "Realisierte Projekte" },
+                { value: "94%", label: "Belegverarbeitungsgenauigkeit" },
               ].map(({ value, label }) => (
                 <motion.div
                   key={label}
@@ -261,7 +244,6 @@ function HeroLP() {
         </div>
       </div>
 
-      {/* Scroll indicator */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -278,56 +260,146 @@ function HeroLP() {
   );
 }
 
-// ─── Pain Points ─────────────────────────────────────────────────────────────
+// ─── USP Block ────────────────────────────────────────────────────────────────
 
-const PAINS = [
+const USPS = [
   {
-    num: "01",
-    title: "Kein internes KI-Know-how",
-    desc: "73% der Mittelständler nennen fehlendes Fachwissen als größtes Hindernis. Neue Stellen zu besetzen dauert Monate — KI wartet nicht.",
+    title: "Technologieneutral",
+    icon: "⬡",
+    badge: "Kein Vendor Lock-in",
+    desc: "Keine Vendor-Provisionen. Empfehlungen über OpenAI, Azure AI, Google Vertex und Open Source — strukturell unvereinbar mit dem Geschäftsmodell der meisten IT-Beratungen.",
   },
   {
-    num: "02",
-    title: "DSGVO & Compliance-Risiken",
-    desc: "EU AI Act, DSGVO, ISO 42001 — die regulatorische Landschaft ist komplex. Falsches Setup kann sechs- bis siebenstellige Bußgelder nach sich ziehen.",
+    title: "Verbindliche ROI-KPIs",
+    icon: "◎",
+    badge: "Vertraglich gebunden",
+    desc: "Messbare Ergebnisse: Stunden/Woche, Fehlerquote, Conversion-Delta — vertraglich vereinbart. Wenige Berater binden sich an solche Metriken.",
   },
   {
-    num: "03",
-    title: "ROI bleibt unklar",
-    desc: "Ohne messbaren Business Case bleibt KI eine Kostenstelle statt ein Wachstumstreiber. Die meisten Piloten scheitern an fehlenden Erfolgskennzahlen.",
-  },
-  {
-    num: "04",
-    title: "Technologie-Wildwuchs",
-    desc: "Hunderte KI-Anbieter, keine unabhängige Orientierung. Fehlentscheidungen binden Budget für Jahre und hinterlassen technische Schulden.",
+    title: "Ownership-Übergabe",
+    icon: "△",
+    badge: "Kein Dauerauftrag",
+    desc: "Kein Dauerauftrag — vollständige interne Ownership ist das explizite Ziel. Widerspricht dem Anreiz klassischer Beratungshäuser, Abhängigkeiten zu erzeugen.",
   },
 ];
 
-function PainSection() {
+function USPSection() {
   const ref = useRef<HTMLElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-100px" });
+  const inView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section ref={ref} className="py-28 bg-brand-ground border-t border-brand-amber/10">
+    <section ref={ref} className="py-28 border-t border-brand-amber/10" style={{ background: "#0D1635" }}>
+      <div className="max-w-screen-xl mx-auto px-6 md:px-12">
+        <div className="mb-14">
+          <motion.span
+            initial={{ opacity: 0 }}
+            animate={inView ? { opacity: 1 } : {}}
+            className="font-dm text-xs text-brand-amber tracking-[0.15em] uppercase block mb-4"
+          >
+            // Was uns strukturell unterscheidet
+          </motion.span>
+          <div className="overflow-hidden">
+            <motion.h2
+              initial={{ clipPath: "inset(0 100% 0 0)" }}
+              animate={inView ? { clipPath: "inset(0 0% 0 0)" } : {}}
+              transition={{ duration: 0.85, ease: EASE_SHARP }}
+              className="font-syne font-bold text-brand-white max-w-2xl"
+              style={{ fontSize: "clamp(24px, 3vw, 46px)", letterSpacing: "-0.02em" }}
+            >
+              Drei Eigenschaften, die andere Beratungen strukturell nicht replizieren können.
+            </motion.h2>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {USPS.map((usp, i) => (
+            <motion.div
+              key={usp.title}
+              initial={{ opacity: 0, y: 32 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.65, delay: i * 0.14, ease: EASE }}
+              whileHover={{ y: -5 }}
+              className="group rounded-xl p-8 flex flex-col gap-5 cursor-default border border-brand-white/6"
+              style={{ background: "#111828" }}
+            >
+              <div className="flex items-center justify-between">
+                <span className="text-brand-amber/50 text-3xl leading-none font-light group-hover:text-brand-amber/80 transition-colors duration-300">
+                  {usp.icon}
+                </span>
+                <span className="font-dm text-xs text-brand-cyan border border-brand-cyan/25 rounded px-2.5 py-1">
+                  {usp.badge}
+                </span>
+              </div>
+              <h3 className="font-syne font-bold text-brand-white text-xl leading-snug group-hover:text-brand-amber transition-colors duration-300">
+                {usp.title}
+              </h3>
+              <p className="font-dm text-sm text-brand-text leading-relaxed">{usp.desc}</p>
+              <div className="mt-auto pt-4 border-t border-brand-white/6">
+                <div className="h-0.5 bg-brand-amber/15 rounded-full overflow-hidden">
+                  <motion.div
+                    initial={{ scaleX: 0, transformOrigin: "left" }}
+                    animate={inView ? { scaleX: 1 } : { scaleX: 0 }}
+                    transition={{ duration: 0.8, delay: 0.4 + i * 0.15, ease: EASE }}
+                    className="h-full bg-brand-amber rounded-full"
+                  />
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── Reference Results ────────────────────────────────────────────────────────
+
+const REF_RESULTS = [
+  {
+    metric: "94%",
+    label: "Belegverarbeitungsgenauigkeit in SAP",
+    desc: "Automatisierte Dokumentenverarbeitung nahtlos in SAP integriert — DSGVO-konform, on-premise. Logistik & Supply Chain.",
+    industry: "Logistik & Supply Chain",
+  },
+  {
+    metric: "3 Tage → 4h",
+    label: "Angebotserstellung verkürzt",
+    desc: "KI-Angebotsgenerator mit Preisoptimierung. Erstellungszeit von 3 Tagen auf 4 Stunden bei gleichzeitig verbesserter Conversion.",
+    industry: "B2B-Dienstleistungen",
+  },
+  {
+    metric: "Echtzeit",
+    label: "Defekterkennung in der Produktion",
+    desc: "Vision-KI erkennt Oberflächendefekte am Produktionsband in Echtzeit — Pilot in 6 Wochen, SAP QM-integriert.",
+    industry: "Fertigung & Qualitätssicherung",
+  },
+];
+
+function ResultsSection() {
+  const ref = useRef<HTMLElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-80px" });
+
+  return (
+    <section ref={ref} id="ergebnisse" className="py-32 bg-brand-ground">
       <div className="max-w-screen-xl mx-auto px-6 md:px-12">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
-          <div className="max-w-xl">
+          <div>
             <motion.span
               initial={{ opacity: 0 }}
               animate={inView ? { opacity: 1 } : {}}
               className="font-dm text-xs text-brand-amber tracking-[0.15em] uppercase block mb-4"
             >
-              // Die Realität im Mittelstand
+              // 40+ Projekte · 12 Branchen · Reale Ergebnisse
             </motion.span>
             <div className="overflow-hidden">
               <motion.h2
                 initial={{ clipPath: "inset(0 100% 0 0)" }}
                 animate={inView ? { clipPath: "inset(0 0% 0 0)" } : {}}
                 transition={{ duration: 0.85, ease: EASE_SHARP }}
-                className="font-syne font-bold text-brand-white"
-                style={{ fontSize: "clamp(28px, 3.5vw, 52px)", letterSpacing: "-0.02em" }}
+                className="font-syne font-bold text-brand-white max-w-xl"
+                style={{ fontSize: "clamp(24px, 3vw, 46px)", letterSpacing: "-0.02em" }}
               >
-                Warum 7 von 10 Mittelstands-KI-Projekten scheitern.
+                Zahlen aus abgeschlossenen Projekten im DACH-Raum.
               </motion.h2>
             </div>
           </div>
@@ -337,31 +409,34 @@ function PainSection() {
             transition={{ delay: 0.3 }}
             className="font-dm text-brand-text text-sm max-w-xs leading-relaxed"
           >
-            Wir kennen diese Muster — und haben pragmatische Lösungen dafür.
+            Keine Hochglanzbroschüren. Drei Ergebnisse aus realen Kundenprojekten.
           </motion.p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          {PAINS.map((p, i) => (
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {REF_RESULTS.map((r, i) => (
             <motion.div
-              key={p.num}
-              initial={{ opacity: 0, y: 30 }}
+              key={i}
+              initial={{ opacity: 0, y: 28 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: i * 0.1, ease: EASE }}
+              transition={{ duration: 0.7, delay: i * 0.14, ease: EASE }}
               whileHover={{ y: -4 }}
-              className="group border border-brand-white/8 rounded-lg p-6 flex flex-col gap-4 cursor-default"
-              style={{ background: "#111828" }}
+              className="rounded-xl p-8 flex flex-col gap-4 cursor-default"
+              style={{ background: "#0D1635", border: "1px solid rgba(245,166,35,0.18)" }}
             >
-              <span
-                className="font-syne font-bold text-brand-amber/30 text-4xl group-hover:text-brand-amber/50 transition-colors duration-300"
-                style={{ letterSpacing: "-0.03em" }}
-              >
-                {p.num}
-              </span>
-              <h3 className="font-syne font-bold text-brand-white text-base leading-snug">
-                {p.title}
-              </h3>
-              <p className="font-dm text-sm text-brand-text leading-relaxed">{p.desc}</p>
+              <span className="font-dm text-xs text-brand-amber/70 tracking-wide uppercase">{r.industry}</span>
+              <div className="flex flex-col gap-1">
+                <span
+                  className="font-syne font-bold text-brand-white leading-tight"
+                  style={{ fontSize: "clamp(28px, 3.5vw, 48px)", letterSpacing: "-0.03em" }}
+                >
+                  {r.metric}
+                </span>
+                <span className="font-dm text-sm text-brand-amber/80">{r.label}</span>
+              </div>
+              <p className="font-dm text-sm text-brand-text leading-relaxed border-t border-brand-white/6 pt-4 mt-1">
+                {r.desc}
+              </p>
             </motion.div>
           ))}
         </div>
@@ -370,205 +445,37 @@ function PainSection() {
   );
 }
 
-// ─── Use Case: Rechnungsautomatisierung ──────────────────────────────────────
+// ─── Services Section ─────────────────────────────────────────────────────────
 
-function UseCaseSection() {
-  const ref = useRef<HTMLElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-80px" });
-
-  const before = [
-    "40+ Stunden manuelle Rechnungsprüfung pro Woche",
-    "3 Vollzeitstellen im Kreditorenbereich",
-    "8% Fehlerquote bei der Dateneingabe",
-    "Häufige Zahlungsverzüge & Mahngebühren",
-    "Keine Echtzeittransparenz über offene Verbindlichkeiten",
-  ];
-  const after = [
-    "6 Stunden — 85% der Prüfung läuft automatisiert",
-    "1 Vollzeitstelle für Ausnahmen & Freigaben",
-    "< 0,5% Fehlerquote durch KI-Validierung",
-    "Keine Zahlungsverzüge, automatische Fälligkeitswarnungen",
-    "Echtzeit-Dashboard für alle offenen Verbindlichkeiten",
-  ];
-  const steps = [
-    { week: "Woche 1–2", label: "Discovery & Datenstrategie", desc: "Prozessaufnahme, Datensichtung, DSGVO-Bewertung" },
-    { week: "Woche 3–4", label: "Modelltraining & Validierung", desc: "Prototyp auf echten Rechnungsdaten, Feedback-Schleife" },
-    { week: "Woche 5–6", label: "Integration & Go-Live", desc: "ERP-Anbindung, Nutzerschulung, produktiver Betrieb" },
-  ];
-
-  return (
-    <section id="use-case" ref={ref} className="py-32 overflow-hidden" style={{ background: "#0D1635" }}>
-      <div className="max-w-screen-xl mx-auto px-6 md:px-12">
-        <motion.span
-          initial={{ opacity: 0 }}
-          animate={inView ? { opacity: 1 } : {}}
-          className="font-dm text-xs text-brand-amber tracking-[0.15em] uppercase block mb-4"
-        >
-          // Praxisbeispiel · Fertigungsindustrie
-        </motion.span>
-        <div className="overflow-hidden mb-6">
-          <motion.h2
-            initial={{ clipPath: "inset(0 100% 0 0)" }}
-            animate={inView ? { clipPath: "inset(0 0% 0 0)" } : {}}
-            transition={{ duration: 0.9, ease: EASE_SHARP }}
-            className="font-syne font-bold text-brand-white max-w-3xl"
-            style={{ fontSize: "clamp(28px, 3.5vw, 52px)", letterSpacing: "-0.02em" }}
-          >
-            Rechnungsautomatisierung: Von 40 Stunden auf 6 Stunden pro Woche.
-          </motion.h2>
-        </div>
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={inView ? { opacity: 1 } : {}}
-          transition={{ delay: 0.25 }}
-          className="font-dm text-brand-text text-base max-w-2xl leading-relaxed mb-16"
-        >
-          Ein mittelständischer Fertigungsbetrieb (280 Mitarbeiter, Maschinenbau) automatisierte
-          seinen gesamten Eingangsrechnungsprozess — DSGVO-konform, on-premise, in 6 Wochen.
-        </motion.p>
-
-        {/* Before / After */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-14">
-          {/* Before */}
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.7, delay: 0.1, ease: EASE }}
-            className="rounded-xl p-7 flex flex-col gap-5"
-            style={{ background: "#111828", border: "1px solid rgba(232,237,247,0.06)" }}
-          >
-            <div className="flex items-center gap-3">
-              <span className="w-2 h-2 rounded-full bg-red-500/60" />
-              <span className="font-dm text-xs text-brand-text tracking-wide uppercase">Vorher</span>
-            </div>
-            <ul className="flex flex-col gap-3">
-              {before.map((item, i) => (
-                <motion.li
-                  key={i}
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={inView ? { opacity: 1, x: 0 } : {}}
-                  transition={{ duration: 0.5, delay: 0.2 + i * 0.08, ease: EASE }}
-                  className="flex items-start gap-3 font-dm text-sm text-brand-text/80 leading-relaxed"
-                >
-                  <span className="text-red-400/60 mt-0.5 shrink-0">✕</span>
-                  {item}
-                </motion.li>
-              ))}
-            </ul>
-          </motion.div>
-
-          {/* After */}
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.7, delay: 0.2, ease: EASE }}
-            className="rounded-xl p-7 flex flex-col gap-5"
-            style={{ background: "#0A1A2F", border: "1px solid rgba(42,255,200,0.18)" }}
-          >
-            <div className="flex items-center gap-3">
-              <span className="w-2 h-2 rounded-full bg-brand-cyan" />
-              <span className="font-dm text-xs text-brand-cyan tracking-wide uppercase">Nachher</span>
-            </div>
-            <ul className="flex flex-col gap-3">
-              {after.map((item, i) => (
-                <motion.li
-                  key={i}
-                  initial={{ opacity: 0, x: 10 }}
-                  animate={inView ? { opacity: 1, x: 0 } : {}}
-                  transition={{ duration: 0.5, delay: 0.3 + i * 0.08, ease: EASE }}
-                  className="flex items-start gap-3 font-dm text-sm text-brand-white/80 leading-relaxed"
-                >
-                  <span className="text-brand-cyan mt-0.5 shrink-0">✓</span>
-                  {item}
-                </motion.li>
-              ))}
-            </ul>
-          </motion.div>
-        </div>
-
-        {/* Key metrics */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-5 mb-14">
-          {[
-            { metric: "−85%", label: "Prozesskosten" },
-            { metric: "−87%", label: "Zeitaufwand" },
-            { metric: "<0,5%", label: "Fehlerquote" },
-            { metric: "6 Mon.", label: "ROI-Break-even" },
-          ].map(({ metric, label }, i) => (
-            <motion.div
-              key={label}
-              initial={{ opacity: 0, y: 20 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.55, delay: 0.35 + i * 0.1, ease: EASE }}
-              whileHover={{ y: -3 }}
-              className="rounded-lg p-5 text-center border border-brand-amber/15"
-              style={{ background: "#111828" }}
-            >
-              <span
-                className="font-syne font-bold text-brand-amber block"
-                style={{ fontSize: "clamp(28px, 3.5vw, 44px)", letterSpacing: "-0.03em" }}
-              >
-                {metric}
-              </span>
-              <span className="font-dm text-xs text-brand-text mt-1 block">{label}</span>
-            </motion.div>
-          ))}
-        </div>
-
-        {/* Timeline */}
-        <div className="border-t border-brand-white/8 pt-12">
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={inView ? { opacity: 1 } : {}}
-            transition={{ delay: 0.5 }}
-            className="font-dm text-xs text-brand-amber tracking-[0.12em] uppercase mb-8"
-          >
-            Umsetzung in 6 Wochen
-          </motion.p>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {steps.map((s, i) => (
-              <motion.div
-                key={s.week}
-                initial={{ opacity: 0, y: 20 }}
-                animate={inView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.55, delay: 0.55 + i * 0.12, ease: EASE }}
-                className="flex flex-col gap-2"
-              >
-                <span className="font-syne font-bold text-xs text-brand-amber/60 tracking-wide uppercase">
-                  {s.week}
-                </span>
-                <span className="font-syne font-bold text-brand-white text-base leading-snug">
-                  {s.label}
-                </span>
-                <span className="font-dm text-sm text-brand-text">{s.desc}</span>
-                {i < steps.length - 1 && (
-                  <div className="hidden md:block absolute" />
-                )}
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-// ─── Differentiation vs Large Consultancies ───────────────────────────────────
-
-const COMPARISON = [
-  { k: "Pilot-Dauer", g: "6–12 Monate", ak: "8 Wochen" },
-  { k: "Ihr Ansprechpartner", g: "Junior-Berater-Team", ak: "Gründer direkt" },
-  { k: "Preismodell", g: "Time & Material", ak: "Festpreis, klar definiert" },
-  { k: "DSGVO / EU AI Act", g: "Kostenpflichtiges Add-on", ak: "Vollständig integriert" },
-  { k: "Fördermittelberatung", g: "Nicht inkludiert", ak: "KfW & BMWK inklusive" },
-  { k: "Mittelstand-Erfahrung", g: "Konzernmethodik", ak: "21 Jahre Mittelstand-DNA" },
+const SERVICES = [
+  {
+    category: "Strategie",
+    title: "KI-Strategie & Roadmap",
+    desc: "Entwicklung einer maßgeschneiderten KI-Roadmap — von der Potenzialanalyse bis zur konkreten Priorisierung mit klaren ROI-Metriken. Kein Theoriepapier, sondern ein verbindlicher Plan.",
+  },
+  {
+    category: "Strategie",
+    title: "Potenzialanalyse",
+    desc: "Identifikation der drei bis fünf KI-Hebel mit dem höchsten ROI-Potential basierend auf tiefem Verständnis der Prozesse, Datenlage und strategischen Ziele.",
+  },
+  {
+    category: "Automatisierung",
+    title: "Prozessautomatisierung",
+    desc: "Identifikation und Automatisierung repetitiver Prozesse mit KI — nahtlos in bestehende Systeme integriert. Typische Resultate: 40–70% Zeitersparnis in operativen Workflows, ohne Systembruch.",
+  },
+  {
+    category: "Implementierung",
+    title: "Pilotprojekt & Proof of Value",
+    desc: "Schneller erster Proof of Value in 4–8 Wochen mit messbarem Ergebnis im realen Betrieb — als Basis für den internen Business Case.",
+  },
 ];
 
-function DiffSection() {
+function ServicesSection() {
   const ref = useRef<HTMLElement>(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section ref={ref} className="py-32 bg-brand-ground">
+    <section ref={ref} id="leistungen" className="py-32 border-t border-brand-white/6" style={{ background: "#0D1635" }}>
       <div className="max-w-screen-xl mx-auto px-6 md:px-12">
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-16">
           <div>
@@ -577,149 +484,17 @@ function DiffSection() {
               animate={inView ? { opacity: 1 } : {}}
               className="font-dm text-xs text-brand-amber tracking-[0.15em] uppercase block mb-4"
             >
-              // Die ehrliche Alternative
+              // Leistungsübersicht
             </motion.span>
             <div className="overflow-hidden">
               <motion.h2
                 initial={{ clipPath: "inset(0 100% 0 0)" }}
                 animate={inView ? { clipPath: "inset(0 0% 0 0)" } : {}}
                 transition={{ duration: 0.85, ease: EASE_SHARP }}
-                className="font-syne font-bold text-brand-white"
-                style={{ fontSize: "clamp(28px, 3.5vw, 52px)", letterSpacing: "-0.02em" }}
+                className="font-syne font-bold text-brand-white max-w-lg"
+                style={{ fontSize: "clamp(24px, 3vw, 46px)", letterSpacing: "-0.02em" }}
               >
-                AK21 vs. die Konzernberatung —
-                <br />
-                ein fairer Vergleich.
-              </motion.h2>
-            </div>
-          </div>
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={inView ? { opacity: 1 } : {}}
-            transition={{ delay: 0.3 }}
-            className="font-dm text-brand-text text-sm max-w-xs leading-relaxed lg:text-right"
-          >
-            Wir vergleichen uns nicht mit anderen KI-Beratern.
-            Wir vergleichen uns mit Ihren Alternativen.
-          </motion.p>
-        </div>
-
-        {/* Comparison table */}
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7, delay: 0.2, ease: EASE }}
-          className="rounded-xl overflow-hidden border border-brand-white/8"
-          style={{ background: "#111828" }}
-        >
-          {/* Header row */}
-          <div className="grid grid-cols-3 border-b border-brand-white/8">
-            <div className="px-6 py-4 font-dm text-xs text-brand-text tracking-wide uppercase">Kriterium</div>
-            <div className="px-6 py-4 font-dm text-xs text-brand-text/50 tracking-wide uppercase border-l border-brand-white/8">
-              Große Beratung
-            </div>
-            <div className="px-6 py-4 font-dm text-xs text-brand-amber tracking-wide uppercase border-l border-brand-amber/25 bg-brand-amber/5">
-              AK21 Consulting
-            </div>
-          </div>
-
-          {COMPARISON.map((row, i) => (
-            <motion.div
-              key={row.k}
-              initial={{ opacity: 0 }}
-              animate={inView ? { opacity: 1 } : {}}
-              transition={{ duration: 0.4, delay: 0.3 + i * 0.07, ease: EASE }}
-              className="grid grid-cols-3 border-b border-brand-white/5 last:border-b-0 group hover:bg-brand-white/2 transition-colors duration-200"
-            >
-              <div className="px-6 py-4 font-dm text-sm text-brand-white/70">{row.k}</div>
-              <div className="px-6 py-4 font-dm text-sm text-brand-text/50 border-l border-brand-white/5">
-                {row.g}
-              </div>
-              <div className="px-6 py-4 font-syne font-bold text-sm text-brand-white border-l border-brand-amber/20 bg-brand-amber/5 flex items-center gap-2">
-                <span className="text-brand-cyan text-xs">✓</span>
-                {row.ak}
-              </div>
-            </motion.div>
-          ))}
-        </motion.div>
-
-        {/* Bottom CTA */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={inView ? { opacity: 1 } : {}}
-          transition={{ delay: 0.8 }}
-          className="mt-10 flex flex-col sm:flex-row items-start sm:items-center gap-4"
-        >
-          <motion.a
-            href="#scorecard"
-            onClick={() => track("intent")}
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.97 }}
-            className="inline-flex items-center gap-2 px-7 py-3.5 bg-brand-amber text-brand-ground font-syne font-bold text-sm tracking-wide rounded hover:brightness-110 transition-all duration-300"
-          >
-            Jetzt AI Readiness Scorecard anfordern →
-          </motion.a>
-          <span className="font-dm text-xs text-brand-text">
-            Kostenlos · Kein Akquise-Anruf ohne Ihre Erlaubnis
-          </span>
-        </motion.div>
-      </div>
-    </section>
-  );
-}
-
-// ─── Trust Signals ────────────────────────────────────────────────────────────
-
-const RESULTS = [
-  {
-    industry: "Fertigung & Qualitätssicherung",
-    metric: "−85%",
-    metricLabel: "Fehlerquote",
-    problem: "Manuelle QS mit 3,2% Fehlerquote — 40 Stunden Nacharbeit pro Woche.",
-    outcome: "Vision-KI erkennt Defekte in Echtzeit am Produktionsband. Pilot in 6 Wochen, SAP-integriert.",
-  },
-  {
-    industry: "Logistik & Supply Chain",
-    metric: "−60h",
-    metricLabel: "pro Woche",
-    problem: "60+ Stunden manuelle Dokumentenverarbeitung blockierten das Ops-Team vollständig.",
-    outcome: "Automatisierte Belegverarbeitung mit 94% Genauigkeit — integriert in SAP, DSGVO-konform.",
-  },
-  {
-    industry: "B2B-Dienstleistungen",
-    metric: "+34%",
-    metricLabel: "Conversion",
-    problem: "3 Tage Angebotserstellung, 28% Conversion — Vertrieb unter konstantem Margendruck.",
-    outcome: "KI-Angebotsgenerator mit Preisoptimierung. Erstellungszeit: 4 Stunden statt 3 Tage.",
-  },
-];
-
-function TrustSection() {
-  const ref = useRef<HTMLElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-100px" });
-
-  return (
-    <section ref={ref} id="ergebnisse" className="py-32 overflow-hidden" style={{ background: "#0D1635" }}>
-      <div className="max-w-screen-xl mx-auto px-6 md:px-12">
-        {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
-          <div>
-            <motion.span
-              initial={{ opacity: 0 }}
-              animate={inView ? { opacity: 1 } : {}}
-              className="font-dm text-xs text-brand-amber tracking-[0.15em] uppercase block mb-4"
-            >
-              // 120+ Projekte · Nachweisbare Ergebnisse
-            </motion.span>
-            <div className="overflow-hidden">
-              <motion.h2
-                initial={{ clipPath: "inset(0 100% 0 0)" }}
-                animate={inView ? { clipPath: "inset(0 0% 0 0)" } : {}}
-                transition={{ duration: 0.85, ease: EASE_SHARP }}
-                className="font-syne font-bold text-brand-white"
-                style={{ fontSize: "clamp(28px, 3.5vw, 52px)", letterSpacing: "-0.02em" }}
-              >
-                Zahlen statt Versprechen.
+                Von der Strategie bis zum laufenden Betrieb.
               </motion.h2>
             </div>
           </div>
@@ -729,318 +504,183 @@ function TrustSection() {
             transition={{ delay: 0.3 }}
             className="font-dm text-brand-text text-sm max-w-xs leading-relaxed"
           >
-            Reale Projekte. Keine Logos — Ergebnisse sprechen lauter.
+            Keine Endlos-Projekte. Klare Schritte mit definierten Deliverables.
           </motion.p>
         </div>
 
-        {/* Result cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
-          {RESULTS.map((r, i) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          {SERVICES.map((s, i) => (
             <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 30 }}
+              key={s.title}
+              initial={{ opacity: 0, y: 24 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.7, delay: i * 0.15, ease: EASE }}
-              whileHover={{ y: -4 }}
-              className="rounded-lg p-8 flex flex-col gap-6 cursor-default"
-              style={{ background: "#111828", border: "1px solid rgba(232,237,247,0.06)" }}
+              transition={{ duration: 0.6, delay: i * 0.1, ease: EASE }}
+              whileHover={{ y: -3 }}
+              className="group rounded-xl p-8 flex flex-col gap-3 cursor-default border border-brand-white/6"
+              style={{ background: "#111828" }}
             >
-              <span className="font-dm text-xs text-brand-amber tracking-wide uppercase">{r.industry}</span>
-              <div>
-                <span
-                  className="font-syne font-bold text-brand-white block leading-none"
-                  style={{ fontSize: "clamp(40px, 4.5vw, 56px)", letterSpacing: "-0.03em" }}
-                >
-                  {r.metric}
-                </span>
-                <span className="font-dm text-sm text-brand-text ml-1">{r.metricLabel}</span>
-              </div>
-              <p className="font-dm text-sm text-brand-text leading-relaxed border-t border-brand-white/6 pt-6">
-                {r.problem}
-              </p>
-              <p className="font-dm text-sm text-brand-white/80 leading-relaxed mt-auto">{r.outcome}</p>
+              <span className="font-dm text-xs text-brand-cyan tracking-wide uppercase">{s.category}</span>
+              <h3 className="font-syne font-bold text-brand-white text-lg leading-snug group-hover:text-brand-amber transition-colors duration-300">
+                {s.title}
+              </h3>
+              <p className="font-dm text-sm text-brand-text leading-relaxed">{s.desc}</p>
             </motion.div>
           ))}
         </div>
-
-        {/* Stats strip */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.5, ease: EASE }}
-          className="rounded-xl border border-brand-amber/20 p-8 grid grid-cols-2 md:grid-cols-4 gap-8"
-          style={{ background: "rgba(10,15,44,0.7)" }}
-        >
-          {[
-            { v: "120+", l: "Abgeschlossene Projekte" },
-            { v: "∅ 8×", l: "ROI in 12 Monaten" },
-            { v: "94%", l: "Kundenzufriedenheit" },
-            { v: "21 J.", l: "Beratungserfahrung" },
-          ].map(({ v, l }, i) => (
-            <div key={l} className="text-center">
-              <motion.span
-                initial={{ opacity: 0 }}
-                animate={inView ? { opacity: 1 } : {}}
-                transition={{ delay: 0.6 + i * 0.1 }}
-                className="font-syne font-bold text-brand-amber block"
-                style={{ fontSize: "clamp(28px, 3vw, 42px)", letterSpacing: "-0.03em" }}
-              >
-                {v}
-              </motion.span>
-              <span className="font-dm text-xs text-brand-text mt-1 block">{l}</span>
-            </div>
-          ))}
-        </motion.div>
-
-        {/* Compliance badges */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={inView ? { opacity: 1 } : {}}
-          transition={{ delay: 0.8 }}
-          className="mt-10 flex flex-wrap items-center gap-3"
-        >
-          <span className="font-dm text-xs text-brand-text/50 mr-2">Zertifizierte Konformität:</span>
-          {["DSGVO", "EU AI Act", "ISO 42001", "KfW-Förderfähig", "BMWK go-digital"].map((badge) => (
-            <span
-              key={badge}
-              className="font-dm text-xs text-brand-cyan border border-brand-cyan/25 rounded px-3 py-1.5"
-            >
-              {badge}
-            </span>
-          ))}
-        </motion.div>
       </div>
     </section>
   );
 }
 
-// ─── Scorecard Form ───────────────────────────────────────────────────────────
+// ─── CTA Section ──────────────────────────────────────────────────────────────
 
-const SCORECARD_FIELDS = [
-  { name: "name", label: "Ihr Name", required: true },
-  { name: "unternehmen", label: "Unternehmensname", required: true },
-  { name: "email", label: "Geschäftliche E-Mail", type: "email", required: true },
-  { name: "mitarbeiter", label: "Anzahl Mitarbeiter (z.B. 50–250)" },
-  { name: "branche", label: "Branche (z.B. Maschinenbau, Logistik)" },
-];
-
-const SCORECARD_FEATURES = [
-  "KI-Reifegrad Ihrer Organisation (Score 0–100)",
-  "Top-3 Use Cases für Ihre Branche mit ROI-Schätzung",
-  "Checkliste: EU AI Act & DSGVO-Readiness",
-  "Empfohlene Fördermittel (KfW, BMWK) für Ihr Projekt",
-  "Benchmark: Ihr Unternehmen vs. Mittelstand-Durchschnitt",
-];
-
-function ScorecardSection() {
+function CTASection() {
   const ref = useRef<HTMLElement>(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section id="scorecard" ref={ref} className="py-32 bg-brand-ground">
+    <section ref={ref} id="erstgespraech" className="py-32 bg-brand-ground">
       <div className="max-w-screen-xl mx-auto px-6 md:px-12">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
-          {/* Left: Scorecard info */}
-          <div>
-            <motion.span
-              initial={{ opacity: 0 }}
-              animate={inView ? { opacity: 1 } : {}}
-              className="font-dm text-xs text-brand-amber tracking-[0.15em] uppercase block mb-6"
-            >
-              // Kostenloser AI Readiness Scorecard
-            </motion.span>
-            <div className="overflow-hidden mb-6">
-              <motion.h2
-                initial={{ clipPath: "inset(0 100% 0 0)" }}
-                animate={inView ? { clipPath: "inset(0 0% 0 0)" } : {}}
-                transition={{ duration: 0.85, ease: EASE_SHARP }}
-                className="font-syne font-bold text-brand-white"
-                style={{ fontSize: "clamp(26px, 3vw, 44px)", letterSpacing: "-0.02em" }}
-              >
-                Wo steht Ihr Unternehmen in Sachen KI?
-              </motion.h2>
-            </div>
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={inView ? { opacity: 1 } : {}}
-              transition={{ delay: 0.2 }}
-              className="font-dm text-brand-text text-base leading-relaxed mb-8"
-            >
-              Unser kostenloser AI Readiness Scorecard liefert Ihnen in 48 Stunden eine
-              ehrliche Standortbestimmung — ohne Verkaufsgespräch, ohne Verpflichtung.
-            </motion.p>
-
-            <motion.ul
-              initial={{ opacity: 0 }}
-              animate={inView ? { opacity: 1 } : {}}
-              transition={{ delay: 0.3 }}
-              className="flex flex-col gap-3 mb-8"
-            >
-              {SCORECARD_FEATURES.map((f, i) => (
-                <motion.li
-                  key={i}
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={inView ? { opacity: 1, x: 0 } : {}}
-                  transition={{ duration: 0.5, delay: 0.35 + i * 0.08, ease: EASE }}
-                  className="flex items-start gap-3 font-dm text-sm text-brand-white/80 leading-relaxed"
-                >
-                  <span className="text-brand-cyan mt-0.5 shrink-0 text-base">✓</span>
-                  {f}
-                </motion.li>
-              ))}
-            </motion.ul>
-
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={inView ? { opacity: 1 } : {}}
-              transition={{ delay: 0.7 }}
-              className="border-t border-brand-white/8 pt-6"
-            >
-              <p className="font-dm text-xs text-brand-text italic">
-                „Über 340 Mittelständler haben den Scorecard bereits genutzt —
-                durchschnittliche Bewertung: 4,8 / 5,0"
-              </p>
-            </motion.div>
+        <div
+          className="relative rounded-2xl overflow-hidden p-12 md:p-20 flex flex-col items-center text-center gap-10"
+          style={{ background: "linear-gradient(135deg, #111828 0%, #0D1635 100%)", border: "1px solid rgba(245,166,35,0.2)" }}
+        >
+          <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
+            <div
+              className="absolute top-0 left-1/4 w-96 h-96 rounded-full"
+              style={{ background: "radial-gradient(circle, rgba(245,166,35,0.10) 0%, transparent 70%)" }}
+            />
+            <div
+              className="absolute bottom-0 right-1/4 w-64 h-64 rounded-full"
+              style={{ background: "radial-gradient(circle, rgba(42,255,200,0.07) 0%, transparent 70%)" }}
+            />
           </div>
 
-          {/* Right: Form */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.7, delay: 0.2, ease: EASE }}
-            className="rounded-xl border border-brand-amber/20 p-8 text-brand-white"
-            style={{ background: "#111828" }}
-          >
-            <h3 className="font-syne font-bold text-brand-white text-lg mb-2">
-              Jetzt anfordern — kostenlos & unverbindlich
-            </h3>
-            <p className="font-dm text-xs text-brand-text mb-6">
-              Kein Akquise-Anruf ohne Ihre ausdrückliche Erlaubnis.
-            </p>
-            <ConversionForm
-              startStep="form_start"
-              submitStep="convert"
-              cta="Scorecard anfordern"
-              fields={SCORECARD_FIELDS}
-            />
-          </motion.div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-// ─── FAQ ─────────────────────────────────────────────────────────────────────
-
-const FAQS = [
-  {
-    q: "Was kostet KI-Beratung für den Mittelstand?",
-    a: "Wir beginnen mit einem kostenlosen 2-tägigen Discovery Workshop — ohne Verpflichtung. Festpreispakete für KI-Piloten beginnen bei klar definierten Budgets ohne Überraschungen. KfW- und BMWK-Förderung kann bis zu 50% der Investition abdecken. Alle Konditionen besprechen wir transparent im ersten Gespräch.",
-  },
-  {
-    q: "Wie lange dauert ein KI-Pilot im Mittelstand?",
-    a: "Unser bewährter Ansatz liefert einen funktionierenden, validierten KI-Pilot in 8 Wochen — mit echten Daten und echten Nutzern. Vergleich: Große Beratungen benötigen oft 6–12 Monate allein für die Strategiephase. Wir skalieren erst nach beweisbarem Erfolg.",
-  },
-  {
-    q: "Ist KI DSGVO-konform und EU AI Act-ready einsetzbar?",
-    a: "Ja. DSGVO, EU AI Act und ISO 42001 sind bei AK21 kein kostenpflichtiges Add-on, sondern von Beginn an in jede Lösung integriert. On-premise- und Hybrid-Deployments sind Standard — Ihre Daten verlassen niemals unkontrolliert Ihr Unternehmen.",
-  },
-  {
-    q: "Welche KI-Fördermittel gibt es für mittelständische Unternehmen?",
-    a: "KfW-Digitalisierungskredit, BMWK-Programme (go-digital, Digital Jetzt), sowie Länderprogramme bieten Zuschüsse bis zu 50% und zinsgünstige Darlehen für KI-Projekte. Fördermittelberatung ist in allen unseren Paketen kostenfrei inkludiert.",
-  },
-  {
-    q: "Was unterscheidet AK21 von anderen KI-Beratungen?",
-    a: "Drei Dinge: Erstens, 21 Jahre nachweisbare Erfahrung spezifisch mit dem deutschen Mittelstand. Zweitens, vollständige Herstellerunabhängigkeit — keine versteckten Provisionen. Drittens, Gründer-Direktkontakt: Ihr Projekt wird von denselben Experten geführt, die das Angebot erstellt haben.",
-  },
-];
-
-function FAQItem({ q, a }: { q: string; a: string }) {
-  const [open, setOpen] = useState(false);
-
-  return (
-    <div className="border-b border-brand-white/10">
-      <motion.button
-        onClick={() => setOpen(!open)}
-        className="w-full text-left py-6 flex items-start justify-between gap-6"
-        whileHover={{ x: 2 }}
-        whileTap={{ scale: 0.99 }}
-        transition={{ duration: 0.2 }}
-      >
-        <span className="font-syne font-medium text-lg text-brand-white leading-snug">{q}</span>
-        <motion.span
-          animate={{ rotate: open ? 45 : 0 }}
-          transition={{ duration: 0.3, ease: EASE }}
-          className="text-brand-amber text-2xl shrink-0 mt-0.5 font-light leading-none"
-        >
-          +
-        </motion.span>
-      </motion.button>
-      <AnimatePresence initial={false}>
-        {open && (
-          <motion.div
-            key="faq-body"
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.35, ease: EASE }}
-            className="overflow-hidden"
-          >
-            <p className="font-dm text-brand-text leading-relaxed pb-6 max-w-3xl">{a}</p>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
-  );
-}
-
-function FAQSection() {
-  const ref = useRef<HTMLElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-80px" });
-
-  return (
-    <section ref={ref} className="py-28 bg-brand-ground border-t border-brand-white/8">
-      <div className="max-w-screen-xl mx-auto px-6 md:px-12">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-          <div className="lg:col-span-4">
+          <div className="relative z-10 flex flex-col items-center gap-8 max-w-3xl">
             <motion.span
               initial={{ opacity: 0 }}
               animate={inView ? { opacity: 1 } : {}}
-              className="font-dm text-xs text-brand-amber tracking-[0.15em] uppercase block mb-4"
+              className="font-dm text-xs text-brand-amber tracking-[0.15em] uppercase"
             >
-              // FAQ
+              // Kostenloses Erstgespräch — 30 Minuten
             </motion.span>
+
             <div className="overflow-hidden">
               <motion.h2
                 initial={{ clipPath: "inset(0 100% 0 0)" }}
                 animate={inView ? { clipPath: "inset(0 0% 0 0)" } : {}}
                 transition={{ duration: 0.85, ease: EASE_SHARP }}
-                className="font-syne font-bold text-brand-white mb-4"
-                style={{ fontSize: "clamp(24px, 3vw, 40px)", letterSpacing: "-0.02em" }}
+                className="font-syne font-bold text-brand-white"
+                style={{ fontSize: "clamp(24px, 3.2vw, 48px)", letterSpacing: "-0.02em" }}
               >
-                Häufige Fragen zur KI-Beratung.
+                Kostenloses Erstgespräch vereinbaren — wir analysieren Ihr größtes KI-Hebelpotenzial in 30 Minuten.
               </motion.h2>
             </div>
+
             <motion.p
+              variants={fadeUp} custom={3}
+              initial="hidden" animate={inView ? "visible" : "hidden"}
+              className="font-dm text-brand-text text-base leading-relaxed max-w-xl"
+            >
+              Kein Verkaufsgespräch, keine unverbindliche Präsentation.
+              Ein strukturiertes 30-Minuten-Gespräch mit den KI-Hebeln, die in Ihrer Branche den größten ROI liefern.
+            </motion.p>
+
+            <motion.div
+              variants={fadeUp} custom={5}
+              initial="hidden" animate={inView ? "visible" : "hidden"}
+              className="flex flex-col sm:flex-row gap-4"
+            >
+              <motion.a
+                href="mailto:hallo@ak21.de?subject=Erstgespr%C3%A4ch%20KI-Beratung%20Mittelstand&body=Guten%20Tag%2C%20ich%20m%C3%B6chte%20ein%20kostenloses%20Erstgespr%C3%A4ch%20zur%20KI-Beratung%20f%C3%BCr%20den%20Mittelstand%20vereinbaren."
+                onClick={() => track("intent")}
+                whileHover={{ scale: 1.04 }}
+                whileTap={{ scale: 0.96 }}
+                className="inline-flex items-center gap-3 px-10 py-5 bg-brand-amber text-brand-ground font-syne font-bold text-base tracking-wide rounded-lg hover:brightness-110 transition-all duration-300"
+              >
+                Jetzt Erstgespräch anfragen
+                <span className="text-xl leading-none">→</span>
+              </motion.a>
+              <motion.a
+                href="/#contact"
+                onClick={() => track("intent")}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="inline-flex items-center gap-2 px-8 py-5 border border-brand-white/20 text-brand-white font-dm text-sm rounded-lg hover:border-brand-amber/50 transition-all duration-300"
+              >
+                Zum Kontaktformular
+              </motion.a>
+            </motion.div>
+
+            <motion.div
               initial={{ opacity: 0 }}
               animate={inView ? { opacity: 1 } : {}}
-              transition={{ delay: 0.25 }}
-              className="font-dm text-brand-text text-sm leading-relaxed"
+              transition={{ delay: 0.7 }}
+              className="flex flex-wrap justify-center gap-6 text-xs font-dm text-brand-text"
             >
-              Keine Standardantworten — nur konkrete Informationen,
-              die Ihnen helfen, eine fundierte Entscheidung zu treffen.
-            </motion.p>
+              <span>✓ Kostenlos & unverbindlich</span>
+              <span>✓ Kein Akquise-Anruf ohne Erlaubnis</span>
+              <span>✓ 30 Minuten, direkt mit dem Gründer</span>
+            </motion.div>
           </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── Internal Links ───────────────────────────────────────────────────────────
+
+function InternalLinksSection() {
+  const ref = useRef<HTMLElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-80px" });
+
+  return (
+    <section ref={ref} className="py-16 bg-brand-ground border-t border-brand-white/6">
+      <div className="max-w-screen-xl mx-auto px-6 md:px-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.55, ease: EASE }}
+          >
+            <Link
+              href="/"
+              className="group flex items-start gap-5 rounded-xl border border-brand-white/6 p-6 hover:border-brand-amber/30 transition-all duration-300"
+              style={{ background: "#111828" }}
+            >
+              <span className="text-brand-amber/40 text-2xl group-hover:text-brand-amber/70 transition-colors duration-300 mt-0.5">←</span>
+              <div className="flex flex-col gap-1.5">
+                <span className="font-syne font-bold text-brand-white text-base group-hover:text-brand-amber transition-colors duration-300">
+                  Zurück zur Startseite
+                </span>
+                <span className="font-dm text-sm text-brand-text leading-relaxed">
+                  Alle Leistungen, Referenzen und Informationen zu ak21 consulting.
+                </span>
+              </div>
+            </Link>
+          </motion.div>
 
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={inView ? { opacity: 1 } : {}}
-            transition={{ delay: 0.2 }}
-            className="lg:col-span-8"
+            initial={{ opacity: 0, y: 16 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.55, delay: 0.1, ease: EASE }}
           >
-            {FAQS.map((faq, i) => (
-              <FAQItem key={i} q={faq.q} a={faq.a} />
-            ))}
+            <Link
+              href="/blog"
+              className="group flex items-start gap-5 rounded-xl border border-brand-white/6 p-6 hover:border-brand-amber/30 transition-all duration-300"
+              style={{ background: "#111828" }}
+            >
+              <span className="text-brand-amber/40 text-2xl group-hover:text-brand-amber/70 transition-colors duration-300 mt-0.5">→</span>
+              <div className="flex flex-col gap-1.5">
+                <span className="font-syne font-bold text-brand-white text-base group-hover:text-brand-amber transition-colors duration-300">
+                  KI-Insights & Praxisberichte
+                </span>
+                <span className="font-dm text-sm text-brand-text leading-relaxed">
+                  Aktuelle Fachartikel zu KI-Prozessautomatisierung, ROI-Metriken und DACH-Praxisbeispielen.
+                </span>
+              </div>
+            </Link>
           </motion.div>
         </div>
       </div>
@@ -1053,13 +693,12 @@ function FAQSection() {
 export default function LandingClient() {
   return (
     <>
-      <HeroLP />
-      <PainSection />
-      <UseCaseSection />
-      <DiffSection />
-      <TrustSection />
-      <ScorecardSection />
-      <FAQSection />
+      <HeroSection />
+      <USPSection />
+      <ResultsSection />
+      <ServicesSection />
+      <CTASection />
+      <InternalLinksSection />
     </>
   );
 }
